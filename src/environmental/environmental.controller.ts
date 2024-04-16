@@ -6,6 +6,7 @@ import {
   Delete,
   Body,
   Param,
+  Query,
 } from '@nestjs/common';
 import { EnvironmentalService } from './environmental.service';
 import { CreateEnvironmentalDto } from './dto/create-environmental.dto';
@@ -23,8 +24,13 @@ export class EnvironmentalController {
   }
 
   @Get()
-  getEnvironmentalData() {
-    return this.environmentalService.findAll();
+  getEnvironmentalData(
+    @Query('page') page: number,
+    @Query('limit') limit: number,
+  ) {
+    page = page || 1;
+    limit = limit || 10;
+    return this.environmentalService.findAll(+page, +limit);
   }
 
   @Get(':id')

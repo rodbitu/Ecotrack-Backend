@@ -22,8 +22,9 @@ export class EnvironmentalService {
     return newEnvironmental.save();
   }
 
-  async findAll(): Promise<Environmental[]> {
-    return this.environmentalModel.find().exec();
+  async findAll(page: number, limit: number) {
+    const skip = (page - 1) * limit;
+    return this.environmentalModel.find().skip(skip).limit(limit).exec();
   }
 
   async findOne(id: string): Promise<Environmental> {
